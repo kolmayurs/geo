@@ -13,7 +13,7 @@ class App extends Component {
   componentDidMount(){
   }
   getLocation(){
-    const jsonURL = 'http://api.openweathermap.org/data/2.5/weather?lat='+this.props.coords.latitude+'&lon='+this.props.coords.longitude+'&appid=8124a644a4fab4b5c77b5fc1ae5ba6c5'
+    const jsonURL = 'https://api.openweathermap.org/data/2.5/weather?lat='+this.props.coords.latitude+'&lon='+this.props.coords.longitude+'&appid=8124a644a4fab4b5c77b5fc1ae5ba6c5'
      if(this.props.coords.latitude && this.props.coords.longitude){
     fetch(jsonURL)
     .then(res => res.json())
