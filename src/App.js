@@ -5,7 +5,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      data: [],
+      address: []
     }
       this.getLocation = this.getLocation.bind(this);
   }
@@ -14,12 +15,19 @@ class App extends Component {
   }
   getLocation(){
     const jsonURL = 'https://api.openweathermap.org/data/2.5/weather?lat='+this.props.coords.latitude+'&lon='+this.props.coords.longitude+'&appid=8124a644a4fab4b5c77b5fc1ae5ba6c5'
+    const jsonURL1 ='https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.props.coords.latitude+','+this.props.coords.longitude+'&key=AIzaSyB7ALnbbmp3KQ_wFGnR5DqNvYPjmvZhlTY'
      if(this.props.coords.latitude && this.props.coords.longitude){
     fetch(jsonURL)
     .then(res => res.json())
     .then(result => {
       this.setState({data: [result]})
     })
+    fetch(jsonURL1)
+    .then(res => res.json())
+    .then(data => {
+      this.setState({address: data.results})
+    })
+    console.log(this.state.address);
     }
     else{
       alert('no latitude & longitude');
@@ -27,6 +35,14 @@ class App extends Component {
   }
 
   render() {
+    const adressData= this.state.address.map((items,i)=> {
+      if(i===1){
+            return(<tr key={'address_' +i}>
+              <td colSpan="2">
+              Address: {items.formatted_address} <br /><br />
+              </td>
+              </tr>)}
+    })
     const weatherData= this.state.data.map((items,i)=> {
       return(<tr key={'temp_' +i}>
         <td colSpan="2">
@@ -50,6 +66,7 @@ class App extends Component {
               <tr><td>latitude</td><td>{this.props.coords.latitude}</td></tr>
               <tr><td>longitude</td><td>{this.props.coords.longitude}</td></tr>
                 <tr><td colSpan="2"><button onClick={this.getLocation.bind(this)}>Get Weather Information</button></td></tr>
+                {adressData}
                 {weatherData}
             </tbody>
           </table>
