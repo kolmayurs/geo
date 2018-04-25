@@ -20,8 +20,6 @@ class App extends Component {
     .then(result => {
       this.setState({data: [result]})
     })
-        console.log(this.state.data);
-        console.log('json URL: '+jsonURL)
     }
     else{
       alert('no latitude & longitude');
